@@ -63,3 +63,46 @@ const tshirts = [
     quantity: 1
   }
 ]
+
+function App(){
+    
+
+  return (
+    <>
+      <h1 className="gallery-title">Tshirt On Sale</h1>
+      <Gallery items={tshirts}  />
+    </>
+  )
+
+}
+
+console.log("JS file is linked!");
+
+
+function Gallery (props) {
+  const [items, setItems] = React.useState(props.items)
+
+  // function clickHandler (target) { 
+  //   setItems( items.map(item => item.id === target.id ? {...item, caught: !item.caught} : item ) )
+    
+  // }
+
+  return (
+    <div id="gallery" className="gallery">
+      {tshirts.map( tshirt => 
+        <div key={tshirt.id} 
+              className={tshirt.caught ? "gallery-item caught" : "gallery-item"} >
+          <img className="gallery-item-image" src={`tshirt.image`} alt={tshirt.title} />
+          <h2 className="gallery-item-name">{tshirt.title}</h2>
+          <p>{tshirt.price}</p>
+          <p>{tshirt.stock}</p>
+          <p>{tshirt.quantity}</p>
+        </div>
+        )}
+    </div>
+  )
+
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App />)
