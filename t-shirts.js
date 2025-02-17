@@ -92,7 +92,7 @@ function Gallery ({items}) {
           <img className="gallery-item-image" src={`./images/${tshirt.image}`} alt={tshirt.title} />
           <h2 className="gallery-item-name">{tshirt.title}</h2>
           <strong>${tshirt.price}</strong>
-          <p>{tshirt.stock >0 ?  '{tshirt.stock} left!': 'Out of Stock!'}</p>
+          {tshirt.stock >0 ?  <p>{tshirt.stock} left!</p>: <p>Out of Stock!</p>}
           <form className="selectForm" onSubmit={stockHandler} >
             <input type="number" className="form-control" placeholder="0"  min="1" max={tshirt.stock} />
             <button type="submit" className="btn">Buy</button>
