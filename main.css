@@ -1,0 +1,42 @@
+/* CSS Reset - Removes Default Spacing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+body{
+    padding: 2rem;
+}
+  
+  .gallery-title {
+    text-align: center;
+    font-size: 2.5rem; 
+    font-weight: 900;
+    padding: 2rem 0;
+  }
+  
+
+  .gallery {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    padding: 1rem;
+
+  }
+  
+  
+  .gallery-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff; 
+    border: none; 
+    overflow: hidden;
+  }
+
+  form{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+  }

@@ -65,38 +65,46 @@ const tshirts = [
 ]
 
 function App(){
-    
-
   return (
     <>
-      <h1 className="gallery-title">Tshirt On Sale</h1>
+      <h1 className="gallery-title">Tshirts</h1>
       <Gallery items={tshirts}  />
     </>
   )
 
 }
 
-console.log("JS file is linked!");
+function Gallery (tshirt) {
+  const [stock, setStock] = React.useState(tshirt.stock)
+  const [quantity, setQuantity] = React.useState(tshirt.quantity)
 
 
-function Gallery (props) {
-  const [items, setItems] = React.useState(props.items)
+  const buyHandler = (e) => {
+    e.preventDefault()
+    if(stock >= quantity) {
+      setStock(stock - quantity)
+    }else{
+      return ('out of stock!')
+    }
+  }
 
-  // function clickHandler (target) { 
-  //   setItems( items.map(item => item.id === target.id ? {...item, caught: !item.caught} : item ) )
-    
-  // }
+  const stockHandler = (e) => {
+    setStock(e.target.value)
+    }
 
   return (
     <div id="gallery" className="gallery">
       {tshirts.map( tshirt => 
-        <div key={tshirt.id} 
-              className={tshirt.caught ? "gallery-item caught" : "gallery-item"} >
-          <img className="gallery-item-image" src={`tshirt.image`} alt={tshirt.title} />
+        <div key={tshirt.index}  
+              className="gallery-item" >
+          <img className="gallery-item-image" src={`./images/${tshirt.image}`} alt={tshirt.title} />
           <h2 className="gallery-item-name">{tshirt.title}</h2>
-          <p>{tshirt.price}</p>
-          <p>{tshirt.stock}</p>
-          <p>{tshirt.quantity}</p>
+          <strong>${tshirt.price}</strong>
+          <p onChange= {stockHandler}>{tshirt.stock} left!</p>
+          <form className="selectForm" >
+            <input type="number" className="form-control" placeholder="0"  min="1" max={tshirt.stock} />
+            <button type="submit" className="btn" onClick={buyHandler}>Buy</button>
+          </form>
         </div>
         )}
     </div>
