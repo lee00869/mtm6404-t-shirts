@@ -79,14 +79,6 @@ function Gallery ({items}) {
   const buyHandler = (quantity) => {
     setTshirts ((prevState) => prevState.map(tshirt => tshirt.stock >= quantity ? { ...tshirt, stock: tshirt.stock - quantity} : tshirt))}
 
-  const stockCheck = ({tshirt}) => {
-    if(tshirt.stock > 0) {
-      return <p>{tshirt.stock} left!</p>
-      } else {
-        return <p>Out of Stock!</p>
-      }
-  }
-
   const stockHandler = (e) => {
     e.preventDefault()
     buyHandler(stock)
@@ -100,7 +92,7 @@ function Gallery ({items}) {
           <img className="gallery-item-image" src={`./images/${tshirt.image}`} alt={tshirt.title} />
           <h2 className="gallery-item-name">{tshirt.title}</h2>
           <strong>${tshirt.price}</strong>
-          <p onCheck ={stockCheck }>{tshirt.stock} left!</p>
+          <p>{tshirt.stock >0 ?  '{tshirt.stock} left!': 'Out of Stock!'}</p>
           <form className="selectForm" onSubmit={stockHandler} >
             <input type="number" className="form-control" placeholder="0"  min="1" max={tshirt.stock} />
             <button type="submit" className="btn">Buy</button>
