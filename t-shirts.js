@@ -71,26 +71,18 @@ function App(){
       <Gallery items={tshirts}  />
     </>
   )
-
 }
 
-function Gallery (tshirt) {
-  const [stock, setStock] = React.useState(tshirt.stock)
-  const [quantity, setQuantity] = React.useState(tshirt.quantity)
+function Gallery ({items}) {
+  const [tshirts, setTshirts] = React.useState(items);
 
-
-  const buyHandler = (e) => {
-    e.preventDefault()
-    if(stock >= quantity) {
-      setStock(stock - quantity)
-    }else{
-      return ('out of stock!')
-    }
-  }
+  const buyHandler = (quantity) => {
+    setTshirts ((prevState) => prevState.map(tshirt => tshirt.stock >= quantity ? { ...tshirt, stock: tshirt.stock - quantity} : tshirt))}
 
   const stockHandler = (e) => {
-    setStock(e.target.value)
-    }
+    e.preventDefault()
+    buyHandler(quantity)
+  }
 
   return (
     <div id="gallery" className="gallery">
@@ -100,10 +92,10 @@ function Gallery (tshirt) {
           <img className="gallery-item-image" src={`./images/${tshirt.image}`} alt={tshirt.title} />
           <h2 className="gallery-item-name">{tshirt.title}</h2>
           <strong>${tshirt.price}</strong>
-          <p onChange= {stockHandler}>{tshirt.stock} left!</p>
-          <form className="selectForm" >
+          <p>{tshirt.stock} left!</p>
+          <form className="selectForm" onSubmit={stockHandler} >
             <input type="number" className="form-control" placeholder="0"  min="1" max={tshirt.stock} />
-            <button type="submit" className="btn" onClick={buyHandler}>Buy</button>
+            <button type="submit" className="btn">Buy</button>
           </form>
         </div>
         )}
