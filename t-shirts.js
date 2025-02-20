@@ -69,44 +69,50 @@ function App(){
   return (
     <div>
       <h1 className="gallery-title">Tshirts</h1>
-      <Gallery items={tshirts}  />
+      <Gallery tshirts={tshirts}  />
     </div>
-    
   )
-  
 }
 
-  const Gallery = (props) => {
-  const [stock, setStock] = React.useState(props.stock)
+const Gallery = ({ tshirts }) => {
+  return (
+    <div id="gallery" className="gallery">
+      {tshirts.map((tshirt) => (
+        <TshirtProduct key={tshirt.title} tshirt={tshirt} />
+      ))}
+    </div>
+  )
+}
 
-  const buyHandler = (stock) => {
-    setStock ((prevState) => prevState.map((tshirt) => tshirt.stock >= quantity ? { ...tshirt, stock: tshirt.stock - tshirt.quantity} : tshirt)
-  )}
+  const TshirtProduct = ({tshirt}) => {
+  const [stock, setStock] = React.useState(tshirt.stock)
+  const [quantity, setQuantity] = React.useState(tshirt.quantity)
 
-  const stockHandler = (e, index) => {
+  const buyHandler = (e) => {
     e.preventDefault()
-    buyHandler(index, quantity)
+    if(stock >= quantity) {
+      setStock(stock - quantity)
+      setQuantity(1)
+    }
+  }
+
+  const quantityChangeHandler = (e) => {
+    setQuantity(e.target.value)
   }
 
   return (
-    <div id="gallery" className="gallery">
-      {tshirts.map( tshirt => 
-        <div key={tshirt.title}  
-              className="gallery-item" >
+        <div className="gallery-item" >
           <img className="gallery-item-image" src={`./images/${tshirt.image}`} alt={tshirt.title} />
           <h2 className="gallery-item-name">{tshirt.title}</h2>
           <strong>${tshirt.price}</strong>
-          {tshirt.stock >0 ?  <p>{tshirt.stock} left!</p>: <p className='error'>Out of Stock!</p>}
+          {stock >0 ?  <p>{stock} left!</p>: <p className='error'>Out of Stock!</p>}
 
           <form className="selectForm">
-            {tshirt.stock > 0 ? <input type="number" className="form-control" placeholder="0"  min="1" max={tshirt.stock} /> : '' }
-            {tshirt.stock > 0 ?  <button type="submit" className="btn" onClick ={stockHandler}>Buy</button>: '' }
+            {stock > 0 ? <input type="number" className="form-control" placeholder="0"  min="1" max={stock} value={quantity} onChange={quantityChangeHandler}/> : '' }
+            {stock > 0 ?  <button type="submit" className="btn" onClick={buyHandler} >Buy</button>: '' }
           </form>
         </div>
-        )}
-    </div>
   )
-
 }
 
 //render
