@@ -64,38 +64,43 @@ const tshirts = [
   }
 ]
 
+//display heading and items
 function App(){
   return (
-    <>
+    <div>
       <h1 className="gallery-title">Tshirts</h1>
       <Gallery items={tshirts}  />
-    </>
+    </div>
+    
   )
+  
 }
 
-function Gallery ({items}) {
-  const [tshirts, setTshirts] = React.useState(items);
+  const Gallery = (props) => {
+  const [stock, setStock] = React.useState(props.stock)
 
-  const buyHandler = (quantity) => {
-    setTshirts ((prevState) => prevState.map(tshirt => tshirt.stock >= quantity ? { ...tshirt, stock: tshirt.stock - quantity} : tshirt))}
+  const buyHandler = (stock) => {
+    setStock ((prevState) => prevState.map((tshirt) => tshirt.stock >= quantity ? { ...tshirt, stock: tshirt.stock - tshirt.quantity} : tshirt)
+  )}
 
-  const stockHandler = (e) => {
+  const stockHandler = (e, index) => {
     e.preventDefault()
-    buyHandler(stock)
+    buyHandler(index, quantity)
   }
 
   return (
     <div id="gallery" className="gallery">
       {tshirts.map( tshirt => 
-        <div key={tshirt.index}  
+        <div key={tshirt.title}  
               className="gallery-item" >
           <img className="gallery-item-image" src={`./images/${tshirt.image}`} alt={tshirt.title} />
           <h2 className="gallery-item-name">{tshirt.title}</h2>
           <strong>${tshirt.price}</strong>
-          {tshirt.stock >0 ?  <p>{tshirt.stock} left!</p>: <p>Out of Stock!</p>}
-          <form className="selectForm" onSubmit={stockHandler} >
-            <input type="number" className="form-control" placeholder="0"  min="1" max={tshirt.stock} />
-            <button type="submit" className="btn">Buy</button>
+          {tshirt.stock >0 ?  <p>{tshirt.stock} left!</p>: <p className='error'>Out of Stock!</p>}
+
+          <form className="selectForm">
+            {tshirt.stock > 0 ? <input type="number" className="form-control" placeholder="0"  min="1" max={tshirt.stock} /> : '' }
+            {tshirt.stock > 0 ?  <button type="submit" className="btn" onClick ={stockHandler}>Buy</button>: '' }
           </form>
         </div>
         )}
@@ -104,5 +109,6 @@ function Gallery ({items}) {
 
 }
 
+//render
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(<App />)
